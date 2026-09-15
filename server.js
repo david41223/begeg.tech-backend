@@ -6,7 +6,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Allow requests from your GitHub Pages frontend
-app.use(cors({ origin: 'https://www.begeg.tech' }));
+app.use(cors());
 
 app.get('/api/timetable', async (req, res) => {
     const untis = new WebUntis(
