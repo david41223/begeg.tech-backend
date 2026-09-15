@@ -1,15 +1,14 @@
 const express = require('express');
 const cors = require('cors');
-const { WebUntis } = require('webuntis'); // <-- Notice the curly braces here
+const { WebUntis } = require('webuntis');
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-// Allow requests coming from your GitHub Pages domain
+// Allow requests from your GitHub Pages frontend
 app.use(cors({ origin: 'https://www.begeg.tech' }));
 
 app.get('/api/timetable', async (req, res) => {
-    // Initialize WebUntis using environment variables
     const untis = new WebUntis(
         process.env.UNTIS_SCHOOL,
         process.env.UNTIS_USER,
@@ -19,10 +18,14 @@ app.get('/api/timetable', async (req, res) => {
 
     try {
         await untis.login();
-        const timetable = await untis.getOwnTimetable();
+        
+        // Correct method name for the webuntis package:
+        const timetable = await untis.getOwnTimetableForToday();
+        
         await untis.logout();
         res.json(timetable);
     } catch (error) {
+        console.error("WebUntis Error:", error.message);
         res.status(500).json({ error: error.message });
     }
 });
