@@ -1,10 +1,11 @@
 const express = require('express');
 const cors = require('cors');
-const WebUntis = require('webuntis');
+const { WebUntis } = require('webuntis'); // <-- Notice the curly braces here
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 
+// Allow requests coming from your GitHub Pages domain
 app.use(cors({ origin: 'https://www.begeg.tech' }));
 
 app.get('/api/timetable', async (req, res) => {
